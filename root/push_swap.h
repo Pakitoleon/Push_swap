@@ -6,7 +6,7 @@
 /*   By: fgonzal2 <fgonzal2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:16:30 by @fgonzal2         #+#    #+#             */
-/*   Updated: 2024/07/17 17:14:15 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:40:30 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <get_next_line/get_next_line.h>
 
 typedef struct s_stack
 {
@@ -31,6 +32,7 @@ typedef struct s_stack
 	int				is_upper;
 	int				is_down;
 	int				is_mid;
+	int				value;
 	struct s_stack	*nbr_push;
 	struct s_stack	*next;
 	struct s_stack	*prev;
@@ -39,7 +41,7 @@ typedef struct s_stack
 
 }	t_stack;
 
-int			ft_strlen_ps(const char *str);
+int			ft_strlen_fd(const char *str);
 void		ft_putstr_fd(char *s, int fd);
 long		ft_atol(char *str);
 int			ft_find_index(t_stack *a, int nbr);
@@ -52,7 +54,7 @@ void		ft_print_error(void);
 int			mx(int x, int y);
 char		*ft_strdup(char *s1);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
-size_t		ft_strlen(const char *s);
+size_t		ft_strlen_ps(const char *s);
 char		**ft_split(char const *s, char c);
 int			help_split(char const *s, char c);
 void		leak_split(char **result, int j);
@@ -99,4 +101,5 @@ void		stack_index_side(t_stack *stack);
 t_stack		*stack_set_structure(t_stack *a, t_stack *b);
 void		free_nbr(char ***nbr);
 void		free_split(char ***result);
+void		print_stack(t_stack *stack, const char *name);
 #endif

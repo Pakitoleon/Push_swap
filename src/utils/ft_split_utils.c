@@ -6,7 +6,7 @@
 /*   By: fgonzal2 <fgonzal2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:56:15 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/17 16:42:34 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:07:21 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	s_len = (unsigned int)ft_strlen((char *)s);
+	s_len = (unsigned int)ft_strlen_ps((char *)s);
 	if (start >= s_len)
 		return (ft_strdup(""));
 	if (start + len > s_len)
@@ -57,7 +57,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen_ps(const char *s)
 {
 	size_t	length;
 
