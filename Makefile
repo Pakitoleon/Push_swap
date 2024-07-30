@@ -66,6 +66,7 @@ FILES_BONUS = bonus/checker \
 				src/sort/utils_for_sort \
 				get_next_line/get_next_line \
 				get_next_line/get_next_line_utils\
+				bonus/utils_checker\
 
 SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
@@ -79,25 +80,24 @@ LIBTH_A = $(LIBTH_DIR)$(LIBTH).a
 BONUS_A = $(BONUS_DIR)$(BONUS)
 
 all: $(NAME)
-	@echo "$(BLUE)Building everything...$(DEFAULT)"
 
 $(NAME): $(OBJS) $(LIBTH_A)
 	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L $(LIBTH)
-	@echo "$(BLUE)$(NAME) was successfully created.$(DEFAULT)"
+	@echo "$(BLUE) $(OBJS) $(LIBTH) $(LIBTH_A) was successfully created.$(DEFAULT)"
 
 $(OBJS_DIR)%.o: $(BONUS_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(BOLD)$(OBJS_DIR) Compiled "$<" successfully!"
+	@echo "$(BOLD) $(BONUS_DIR) $(OBJS_DIR) Compiled "$<" successfully!"
 
 $(LIBTH_A): $(LIBTH_OBJS)
 	@mkdir -p $(LIBTH_DIR)
 	$(AR) -o $(LIBTH_A) $(LIBTH_OBJS)
-	@echo "$(CYAN)$(LIBTH_A) library was successfully created.$(DEFAULT)"
+	@echo "$(CYAN) $(LIBTH_OBJS) $(LIBTH_A) library was successfully created.$(DEFAULT)"
 
 $(BONUS_A): $(OBJS_BONUS)
 	@mkdir -p $(BONUS_DIR)
 	$(CC) -o $(BONUS_A) $(OBJS_BONUS)
-	@echo "$(MAGENTA)$(BONUS_A) BONUS was successfully created.$(DEFAULT)"
+	@echo "$(MAGENTA) $(OBJS_BONUS) $(BONUS_A) $(OBJS_DIR) BONUS was successfully created.$(DEFAULT)"
 
 %.o : %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -105,30 +105,32 @@ $(BONUS_A): $(OBJS_BONUS)
 
 $(LIBTH_DIR)%.o: $(LIBTH_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(YELLOW)Creating object file: $(DEFAULT)$(notdir $@)"
+	@echo "$(YELLOW) $(LIBTH_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
 $(OBJS_DIR)get_next_line.o: $(LIBTH_DIR)get_next_line.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(BLUE)Creating object file: $(DEFAULT)$(notdir $@)"
+	@echo "$(purple) $(LIBTH_DIR) $(OBJS_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
 $(OBJS_DIR)get_next_line_utils.o: $(LIBTH_DIR)get_next_line_utils.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(BOLD)Creating object file: $(DEFAULT)$(notdir $@)"
+	@echo "$(purple) $(OBJS_DIR) $(LIBTH_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(MAGENTA)Creating object file: $(DEFAULT)$(notdir $@)"
+	@echo "$(MAGENTA) $(SRC_DIR) $(OBJS_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
 bonus: $(BONUS_A)
 	@$(CC) $(CFLAGS) -o $(BONUS) $(OBJS_BONUS)
-#	@$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME)_bonus
-	@echo "$(YELLOW)Bonus compiled: $(DEFAULT)$(NAME)_bonus"
+	@echo "$(purple) $(BONUS_A) $(BONUS) $(OBJS_BONUS) Bonus compiled: $(DEFAULT)$(NAME)_bonus"
 
 
 clean:
 	$(RM) $(OBJS) $(OBJS_BONUS)
+	@echo "$(RED) $(OBJS) Fully cleaned.$(DEFAULT)"
+	@echo "$(PINK) $(OBJS_BONUS) $(OBJS) Fully cleaned.$(DEFAULT)"
 	$(RM) $(LIBTH_OBJS)
+	@echo "$(RED) $(RM) $(LIBTH_OBJS) Fully cleaned.$(DEFAULT)"
 	$(shell rm -r $(OBJS_DIR))
 	@echo "$(RED)Fully cleaned.$(DEFAULT)"
 fclean: clean
@@ -164,4 +166,6 @@ BLUE	:= \033[34;1m
 MAGENTA	:= \033[35;1m
 CYAN	:= \033[36;1m
 WHITE	:= \033[37;1m
+PINK	:= \033[38;5;206m
+purple	:= \033[38;5;57m
 DEFAULT	:= \033[0m

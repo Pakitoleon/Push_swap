@@ -6,7 +6,7 @@
 /*   By: fgonzal2 <fgonzal2@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:31:24 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/29 16:41:06 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:33:54 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,18 @@ void	rrotate(t_stack **stack)
 
 void	rra(t_stack **a)
 {
-	print_stack(*a, "A before");
 	printf("rra\n");
 	rrotate(a);
 }
 
 void	rrb(t_stack **b)
 {
-	print_stack(*b, "B before");
 	printf("rrb\n");
 	rrotate(b);
 }
 
 void	rrr(t_stack **a, t_stack **b)
 {
-	print_stack(*a, "A before");
-	print_stack(*b, "B before");
 	printf("rrr\n");
 	rrotate(a);
 	rrotate(b);

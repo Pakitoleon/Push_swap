@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgonzal2 <fgonzal2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: fgonzal2 <fgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:03:00 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/29 15:53:42 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:29:20 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static char	*gnlrot(t_stack *a, t_stack *b, char *ext)
 		rrotate(&b);
 	}
 	else
-		ft_print_error();
+		free(ext);
+	ft_print_error();
 	return (get_next_line(0));
 }
 
@@ -66,25 +67,8 @@ static char	*mov(t_stack **a, t_stack **b, char *ext)
 	}
 	else if (!gnlrot(*a, *b, ext));
 	else
-		ft_print_error();
+		free(ext);
 	return (get_next_line(0));
-}
-
-static void	checker(t_stack **a, t_stack **b, char *ext)
-{
-	char	*tmp;
-
-	while (ext)
-	{
-		tmp = ext;
-		ext = mov(a, b, ext);
-		free(tmp);
-	}
-	if (*b || !stack_is_sorted(*a))
-		write(1, "ko\n", 3);
-	else
-		write(1, "ok\n", 3);
-	free(ext);
 }
 
 int	main(int argc, char **argv)
@@ -100,14 +84,17 @@ int	main(int argc, char **argv)
 	if (argc > 1)
 	{
 		process_in(argc, argv, &nbr, &a);
-		ext = get_next_line (0);
-		if (!ext && stack_is_sorted(a))
+		while ((ext = get_next_line(0)))
+		{
+			if (!mov(&a, &b, ext))
+			free(ext);
+    	}
+    	if (stack_is_sorted_bonus(a))
 			write(1, "ok\n", 3);
-		else if (!ext && !stack_is_sorted(a))
-			write(1, "ko\n", 3);
 		else
-			checker(&a, &b, ext);
-		ft_stack_free(&a);
+			write(1, "ko\n", 3);
+		free_array(nbr);
+		ft_stack_free_bonus(&a, &b);
 	}
 	return (0);
 }
