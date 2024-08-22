@@ -5,96 +5,105 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgonzal2 <fgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 12:03:00 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/30 16:29:20 by fgonzal2         ###   ########.fr       */
+/*   Created: 2024/02/19 11:21:31 by saroca-f          #+#    #+#             */
+/*   Updated: 2024/08/22 09:57:04 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "../root/push_swap.h"
 
-int	ft_strncmp_bonus(char *s1, char *s2, size_t n)
+void	print_stack(t_stack *stack)
 {
-	unsigned int	i;
+	t_stack	*current;
+	int		len;
 
-	i = 0;
-	while (i < n && s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	if (i == n)
-		return (0);
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	current = stack;
+	len = 0;
+	while (current != NULL)
+	{
+		printf("Valor: %d ", current->content);
+		printf("Índice: %d\n", current->index);
+		len++;
+		current = current->next;
+	}
+	printf("Tamaño del stack: %d\n", len);
 }
 
-static char	*gnlrot(t_stack *a, t_stack *b, char *ext)
+bool	ft_strcmp(char *str_1, char *str_2)
 {
-	if (!ft_strncmp_bonus(ext, "ra\n", 3))
-		rotate(&a);
-	else if (!ft_strncmp_bonus(ext, "rb\n", 3))
-		rotate(&b);
-	else if (!ft_strncmp_bonus(ext, "rr\n", 3))
+	while (*str_1 == *str_2
+		&& *str_1)
 	{
-		rotate(&a);
-		rotate(&b);
+		++str_1;
+		++str_2;
 	}
-	else if (!ft_strncmp_bonus(ext, "rra\n", 4))
-		rrotate(&a);
-	else if (!ft_strncmp_bonus(ext, "rrb\n", 4))
-		rrotate(&b);
-	else if (!ft_strncmp_bonus(ext, "rrr\n", 4))
-	{
-		rrotate(&a);
-		rrotate(&b);
-	}
-	else
-		free(ext);
-	ft_print_error();
-	return (get_next_line(0));
+	if (*str_1 || *str_2)
+		return (false);
+	return (true);
 }
 
-static char	*mov(t_stack **a, t_stack **b, char *ext)
+void	find_error(t_stack *a, t_stack *b)
 {
-	if (!ft_strncmp_bonus(ext, "pa\n", 3))
+	free_stack(&a);
+	free_stack(&b);
+	write(2, "Error\n", 6);
+	exit (1);
+}
+
+void	order_cheker(char *next_line, t_stack **a, t_stack **b)
+{
+	if (ft_strcmp(next_line, "pa\n"))
 		push(b, a);
-	else if (!ft_strncmp_bonus(ext, "pb\n", 3))
+	else if (ft_strcmp(next_line, "pb\n"))
 		push(a, b);
-	else if (!ft_strncmp_bonus(ext, "sa\n", 3))
+	else if (ft_strcmp(next_line, "sa\n"))
 		swap(a);
-	else if (!ft_strncmp_bonus(ext, "sb\n", 3))
+	else if (ft_strcmp(next_line, "sb\n"))
 		swap(b);
-	else if	(!ft_strncmp_bonus(ext, "ss\n", 3))
-	{
-		swap(a);
-		swap(b);
-	}
-	else if (!gnlrot(*a, *b, ext));
+	else if (ft_strcmp(next_line, "ss\n"))
+		ss_bonus(a, b);
+	else if (ft_strcmp(next_line, "ra\n"))
+		rotate(a);
+	else if (ft_strcmp(next_line, "rb\n"))
+		rotate(b);
+	else if (ft_strcmp(next_line, "rr\n"))
+		rr_bonus(a, b);
+	else if (ft_strcmp(next_line, "rra\n"))
+		rrotate(a);
+	else if (ft_strcmp(next_line, "rrb\n"))
+		rrotate(b);
+	else if (ft_strcmp(next_line, "rrr\n"))
+		rrr_bonus(a, b);
 	else
-		free(ext);
-	return (get_next_line(0));
+		find_error(*a, *b);
+	free(next_line);
 }
 
 int	main(int argc, char **argv)
 {
-	char	**nbr;
-	t_stack	*a;
-	t_stack	*b;
-	char	*ext;
+	t_stack		*a;
+	t_stack		*b;
+	char		*next_line;
+	int			len;
 
 	a = NULL;
 	b = NULL;
-	nbr = 0;
-	if (argc > 1)
+	if (argc == 1)
+		return (1);
+	else if (argc == 2)
+		argv = ft_split(argv[1], ' ');
+	stack_init(&a, argv + 1);
+	len = stack_len(a);
+	next_line = get_next_line(STDIN_FILENO);
+	while (next_line)
 	{
-		process_in(argc, argv, &nbr, &a);
-		while ((ext = get_next_line(0)))
-		{
-			if (!mov(&a, &b, ext))
-			free(ext);
-    	}
-    	if (stack_is_sorted_bonus(a))
-			write(1, "ok\n", 3);
-		else
-			write(1, "ko\n", 3);
-		free_array(nbr);
-		ft_stack_free_bonus(&a, &b);
+		order_cheker(next_line, &a, &b);
+		next_line = get_next_line(STDIN_FILENO);
 	}
+	if (stack_is_sorted(a) && stack_len(a) == len)
+		write (1, "OK\n", 3);
+	else
+		write (1, "KO\n", 3);
+	ft_stack_free_bonus (&a, &b);
 	return (0);
 }

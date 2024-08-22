@@ -10,7 +10,6 @@ CFLAGS = -Wall -Wextra -Werror -g
 AR = ar rcs
 RM = rm -f
 
-
 SRCS_DIR = ./
 OBJS_DIR = ./objs/
 LIBTH_DIR = ./get_next_line/
@@ -47,6 +46,7 @@ FILE_LIBTH = get_next_line/get_next_line \
 				get_next_line/get_next_line_utils\
 
 FILES_BONUS = bonus/checker \
+				bonus/utils_checker \
 				src/stack/stack_funcions \
 				src/utils/ft_atol \
 				src/utils/ft_find \
@@ -66,7 +66,7 @@ FILES_BONUS = bonus/checker \
 				src/sort/utils_for_sort \
 				get_next_line/get_next_line \
 				get_next_line/get_next_line_utils\
-				bonus/utils_checker\
+
 
 SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
@@ -75,29 +75,26 @@ LIBTH_OBJS = $(LIBTH_SRC:$(LIBTH_DIR)%.c=$(OBJS_DIR)%.o)
 SRCS_BONUS = $(addprefix $(BONUS_DIR), $(addsuffix .c, $(FILES_BONUS)))
 OBJS_BONUS = $(SRCS_BONUS:$(BONUS_DIR)%.c=$(OBJS_DIR)%.o)
 
-LIBTH_A = $(LIBTH_DIR)$(LIBTH).a
+LIBTH_A = $(LIBTH_DIR)$(LIBTH)
 
 BONUS_A = $(BONUS_DIR)$(BONUS)
 
 all: $(NAME)
-
-$(NAME): $(OBJS) $(LIBTH_A)
-	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L $(LIBTH)
 	@echo "$(BLUE) $(OBJS) $(LIBTH) $(LIBTH_A) was successfully created.$(DEFAULT)"
 
 $(OBJS_DIR)%.o: $(BONUS_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(BOLD) $(BONUS_DIR) $(OBJS_DIR) Compiled "$<" successfully!"
+	@echo "$(GREEN) $(BONUS_DIR) $(OBJS_DIR) Compiled "$<" successfully!"
 
 $(LIBTH_A): $(LIBTH_OBJS)
 	@mkdir -p $(LIBTH_DIR)
-	$(AR) -o $(LIBTH_A) $(LIBTH_OBJS)
+	$(AR) $(LIBTH_A) $(LIBTH_OBJS)
 	@echo "$(CYAN) $(LIBTH_OBJS) $(LIBTH_A) library was successfully created.$(DEFAULT)"
 
 $(BONUS_A): $(OBJS_BONUS)
 	@mkdir -p $(BONUS_DIR)
 	$(CC) -o $(BONUS_A) $(OBJS_BONUS)
-	@echo "$(MAGENTA) $(OBJS_BONUS) $(BONUS_A) $(OBJS_DIR) BONUS was successfully created.$(DEFAULT)"
+	@echo "$(MAGENTA) $(OBJS_BONUS) $(BONUS_A) $(OBJS_DIR) $(BONUS_DIR) BONUS was successfully created.$(DEFAULT)"
 
 %.o : %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -105,25 +102,29 @@ $(BONUS_A): $(OBJS_BONUS)
 
 $(LIBTH_DIR)%.o: $(LIBTH_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(YELLOW) $(LIBTH_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
+	@echo "$(GREEN) $(LIBTH_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
-$(OBJS_DIR)get_next_line.o: $(LIBTH_DIR)get_next_line.c
+$(OBJS_DIR)%.o: $(LIBTH_DIR)%.c
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(purple) $(LIBTH_DIR) $(OBJS_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
-
-$(OBJS_DIR)get_next_line_utils.o: $(LIBTH_DIR)get_next_line_utils.c
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(purple) $(OBJS_DIR) $(LIBTH_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(MAGENTA) $(SRC_DIR) $(OBJS_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
+	@echo "$(MAGENTA) $(SRCS_DIR) $(OBJS_DIR) Creating object file: $(DEFAULT)$(notdir $@)"
 
 bonus: $(BONUS_A)
 	@$(CC) $(CFLAGS) -o $(BONUS) $(OBJS_BONUS)
 	@echo "$(purple) $(BONUS_A) $(BONUS) $(OBJS_BONUS) Bonus compiled: $(DEFAULT)$(NAME)_bonus"
 
+$(NAME): $(OBJS) $(LIBTH_A)
+	@$(CC) $(CFLAGS) -o $@ $(OBJS) -L $(LIBTH)
+	@echo "$(BLUE) $(OBJS) $(LIBTH) $(LIBTH_A) was successfully created.$(DEFAULT)"
+
+$(OBJS_DIR)%.o: $(BONUS_DIR)%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(GREEN) $(BONUS_DIR) $(OBJS_DIR) Compiled "$<" successfully!"
 
 clean:
 	$(RM) $(OBJS) $(OBJS_BONUS)
@@ -133,12 +134,15 @@ clean:
 	@echo "$(RED) $(RM) $(LIBTH_OBJS) Fully cleaned.$(DEFAULT)"
 	$(shell rm -r $(OBJS_DIR))
 	@echo "$(RED)Fully cleaned.$(DEFAULT)"
+
 fclean: clean
 	$(RM) $(OBJS) $(OBJS_BONUS) 
 	$(RM) $(LIBTH_OBJS) $(LIBTH_A)
 	@echo "$(GREEN)Cleaned everything.$(DEFAULT)"
+
 re: fclean clean
 	@echo "$(BOLD)Cleaned .$(DEFAULT)"
+
 rebonus: fclean 
 	$(RM) $(OBJS_BONUS) $(BONUS)
 	@echo "$(YELLOW)Cleaned bonus.$(DEFAULT)"

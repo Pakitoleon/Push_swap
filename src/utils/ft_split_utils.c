@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgonzal2 <fgonzal2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: fgonzal2 <fgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:56:15 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/22 11:07:21 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/08/22 09:54:53 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,4 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		substr[i] = s[start + i];
 	substr[i] = '\0';
 	return (substr);
-}
-
-size_t	ft_strlen_ps(const char *s)
-{
-	size_t	length;
-
-	length = 0;
-	while (s[length] != '\0')
-	{
-		length++;
-	}
-	return (length);
 }

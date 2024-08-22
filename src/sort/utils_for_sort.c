@@ -6,21 +6,21 @@
 /*   By: fgonzal2 <fgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:03:58 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/08 11:01:22 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/08/22 09:54:13 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../root/push_swap.h"
 
-int	stack_is_sorted(t_stack *stack)
+int	stack_is_sorted(t_stack *a)
 {
-	if (ft_stack_size(stack) < 2)
+	if (!a)
 		return (1);
-	while (stack->next)
+	while (a->next)
 	{
-		if (stack->content > stack->next->content)
+		if (a->content > a->next->content)
 			return (0);
-		stack = stack->next;
+		a = a->next;
 	}
 	return (1);
 }

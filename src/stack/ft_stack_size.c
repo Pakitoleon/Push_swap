@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stack_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgonzal2 <fgonzal2@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: fgonzal2 <fgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:38:50 by fgonzal2          #+#    #+#             */
-/*   Updated: 2024/07/30 10:14:08 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/08/22 09:54:20 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,20 @@ t_stack	*stack_last_node(t_stack *stack)
 	while (stack->next)
 		stack = stack->next;
 	return (stack);
+}
+
+int	stack_len(t_stack *stack)
+{
+	int	count;
+
+	if (!stack)
+		return (0);
+	count = 0;
+	while (stack->next)
+	{
+		count++;
+		stack = stack->next;
+	}
+	count = count + 1;
+	return (count);
 }
