@@ -127,7 +127,7 @@ $(OBJS_DIR)%.o: $(BONUS_DIR)%.c
 	@echo "$(GREEN) $(BONUS_DIR) $(OBJS_DIR) Compiled "$<" successfully!"
 
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	rm -f $(RM) $(OBJS) $(OBJS_BONUS)
 	@echo "$(RED) $(OBJS) Fully cleaned.$(DEFAULT)"
 	@echo "$(PINK) $(OBJS_BONUS) $(OBJS) Fully cleaned.$(DEFAULT)"
 	$(RM) $(LIBTH_OBJS)
@@ -136,7 +136,7 @@ clean:
 	@echo "$(RED)Fully cleaned.$(DEFAULT)"
 
 fclean: clean
-	$(RM) $(OBJS) $(OBJS_BONUS) 
+	rm -f $(RM) $(OBJS) $(OBJS_BONUS) 
 	$(RM) $(LIBTH_OBJS) $(LIBTH_A)
 	@echo "$(GREEN)Cleaned everything.$(DEFAULT)"
 
@@ -147,7 +147,7 @@ rebonus: fclean
 	$(RM) $(OBJS_BONUS) $(BONUS)
 	@echo "$(YELLOW)Cleaned bonus.$(DEFAULT)"
 
-.PHONY: clean fclean re rebonus $(RM) $(get_next_linemake \
+.PHONY: clean fclean re rebonus rm -f $(RM) $(get_next_linemake \
 	get_next_lineclean \ get_next_linefclean \ get_next_linere \)
 	@echo "$(YELLOW).PHONY Cleaned.$(DEFAULT)"
 

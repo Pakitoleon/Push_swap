@@ -6,7 +6,7 @@
 /*   By: fgonzal2 <fgonzal2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:21:31 by saroca-f          #+#    #+#             */
-/*   Updated: 2024/08/22 09:57:04 by fgonzal2         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:59:26 by fgonzal2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ bool	ft_strcmp(char *str_1, char *str_2)
 
 void	find_error(t_stack *a, t_stack *b)
 {
-	free_stack(&a);
-	free_stack(&b);
+	ft_stack_free_bonus(&a, &b);
 	write(2, "Error\n", 6);
 	exit (1);
 }
