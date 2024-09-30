@@ -1,1 +1,3 @@
-Proyecto de 42 Malaga terminado, pendiente de editar reame.
+Proyecto de 42 Malaga terminado, pendiente de editar readme.
+
+./SECURITY.MD
