@@ -16,3 +16,5 @@ En la actuañllidad la version 5.1 funciona y pasa las correcciones con el 125% 
 ## Reporting a Vulnerability
 
 version 5 y anteriores contienen errores aunque pasan la compilacion y pruebas creada por gmartin99
+
+[![<username>'s 42 stats](https://badge.mediaplus.ma/darkblue/<username>)](https://github.com/oakoudad/badge42)
